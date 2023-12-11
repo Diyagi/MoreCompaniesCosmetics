@@ -11,7 +11,7 @@ namespace PandaCosmetics;
 public static class PluginInformation
 {
     public const string PluginName = "Panda Cosmetics";
-    public const string PluginVersion = "2.0.0";
+    public const string PluginVersion = "2.0.1";
     public const string PluginGuid = "diyagi.PandaCosmetics";
 }
 
@@ -19,21 +19,31 @@ public static class PluginInformation
 [BepInDependency("me.swipez.melonloader.morecompany")]
 public class Plugin : BaseUnityPlugin
 {
+    private Assembly _executingAssembly;
+    
     private void Awake()
     {
         // Plugin startup logic
         Logger.LogInfo($"Loading {PluginInformation.PluginName}...");
 
-        string[] resourceNames = Assembly.GetExecutingAssembly().GetManifestResourceNames();
-        List<string> cosmeticEmbeddedNames = resourceNames.Where(x => x.Contains(".cosmetic")).ToList();
-        
-        cosmeticEmbeddedNames.ForEach(x =>
-        {
-            Logger.LogInfo($"Loading AssetBundle {x}...");
-            AssetBundle bundle = BundleUtilities.LoadBundleFromInternalAssembly(x, Assembly.GetExecutingAssembly());
-            CosmeticRegistry.LoadCosmeticsFromBundle(bundle);
-        });
+        _executingAssembly = Assembly.GetExecutingAssembly();
+
+        List<string> bundles = GetEmbeddedBundlesNames();
+        bundles.ForEach(LoadBundle);
         
         Logger.LogInfo($"{PluginInformation.PluginName} Loaded!!!");
+    }
+
+    private void LoadBundle(string bundleResourceName)
+    {
+        Logger.LogInfo($"Loading AssetBundle {bundleResourceName}...");
+        AssetBundle bundle = BundleUtilities.LoadBundleFromInternalAssembly(bundleResourceName, _executingAssembly);
+        CosmeticRegistry.LoadCosmeticsFromBundle(bundle);
+    }
+
+    private List<string> GetEmbeddedBundlesNames()
+    {
+        string[] resourceNames = _executingAssembly.GetManifestResourceNames();
+        return resourceNames.Where(x => x.Contains(".cosmetic")).ToList();
     }
 }
