@@ -35,19 +35,24 @@
 
     <ItemGroup>
         <Reference Include="BepInEx">
-            <HintPath>managed\BepInEx.dll</HintPath>
+          <HintPath>managed\BepInEx.dll</HintPath>
+          <Private>False</Private>
         </Reference>
         <Reference Include="MoreCompany">
           <HintPath>managed\MoreCompany.dll</HintPath>
+          <Private>False</Private>
         </Reference>
         <Reference Include="UnityEngine">
           <HintPath>managed\UnityEngine.dll</HintPath>
+          <Private>False</Private>
         </Reference>
         <Reference Include="UnityEngine.AssetBundleModule">
           <HintPath>managed\UnityEngine.AssetBundleModule.dll</HintPath>
+          <Private>False</Private>
         </Reference>
         <Reference Include="UnityEngine.CoreModule">
           <HintPath>managed\UnityEngine.CoreModule.dll</HintPath>
+          <Private>False</Private>
         </Reference>
     </ItemGroup>
 
@@ -57,10 +62,6 @@
 
     <ItemGroup>
         <EmbeddedResource Include="Bundles\*.cosmetics" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Content Include="Bundles\PlaceYourCosmeticsFilesInHere" />
     </ItemGroup>
 
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

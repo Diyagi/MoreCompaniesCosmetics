@@ -4,13 +4,14 @@ using System.Reflection;
 using BepInEx;
 using MoreCompany.Cosmetics;
 using MoreCompany.Utils;
+using UnityEngine;
 
 namespace PandaCosmetics;
 
 public static class PluginInformation
 {
     public const string PluginName = "Panda Cosmetics";
-    public const string PluginVersion = "1.0.0";
+    public const string PluginVersion = "2.0.0";
     public const string PluginGuid = "diyagi.PandaCosmetics";
 }
 
@@ -28,8 +29,8 @@ public class Plugin : BaseUnityPlugin
         
         cosmeticEmbeddedNames.ForEach(x =>
         {
-            Logger.LogInfo($"Loading cosmetic {x}...");
-            var bundle = BundleUtilities.LoadBundleFromInternalAssembly(x, Assembly.GetExecutingAssembly());
+            Logger.LogInfo($"Loading AssetBundle {x}...");
+            AssetBundle bundle = BundleUtilities.LoadBundleFromInternalAssembly(x, Assembly.GetExecutingAssembly());
             CosmeticRegistry.LoadCosmeticsFromBundle(bundle);
         });
         
